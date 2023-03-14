@@ -6,7 +6,6 @@ use clap::Parser;
 
 use lintrunner::{
     do_init, do_lint,
-    git,
     init::check_init_changed,
     lint_config::{get_linters_from_config, LintRunnerConfig},
     log_utils::setup_logger,
@@ -15,6 +14,7 @@ use lintrunner::{
     rage::do_rage,
     render::print_error,
     PathsOpt, RenderOpt, RevisionOpt,
+    version_control,
 };
 use log::debug;
 
@@ -164,7 +164,7 @@ fn do_main() -> Result<i32> {
     debug!("Version: {VERSION}");
     debug!("Passed args: {:?}", std::env::args());
     debug!("Computed args: {:?}", args);
-    let repo = git::Repo::new()?;
+    let repo = version_control::Repo::new()?;
     debug!("Current rev: {}", repo.get_head()?);
 
     let cmd = args.cmd.unwrap_or(SubCommand::Lint);
